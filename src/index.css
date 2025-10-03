@@ -1,0 +1,77 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ====== 全局调色 & 背景 ====== */
+body{
+  @apply bg-slate-900 text-slate-100;
+}
+/* 背景微粒速度线 */
+.bg-speeds {
+  position: fixed; inset: 0; pointer-events: none; z-index: 1;
+  background:
+    radial-gradient(ellipse at 20% 10%, rgba(255,255,255,.05) 0 30%, transparent 40%) repeat,
+    repeating-linear-gradient(90deg, rgba(255,255,255,.04) 0 2px, transparent 2px 12px);
+  background-size: 800px 800px, 100% 100%;
+  animation: bgDrift 24s linear infinite;
+}
+@keyframes bgDrift { to { background-position: 800px -800px, 0 0; } }
+
+/* ====== 发车灯 ====== */
+.start-grid { display:flex; gap:10px; justify-content:center; }
+.start-dot { width:14px; height:14px; border-radius:9999px; background:#394457; box-shadow:0 0 10px rgba(0,0,0,.5) inset; }
+.start-dot.on { background:#ef4444; box-shadow: 0 0 12px #ef4444, 0 0 24px rgba(239,68,68,.4); }
+
+/* ====== 赛道区域 ====== */
+.track-wrap{ position:relative; overflow:hidden; border-radius:16px; border:1px solid #394457; background:linear-gradient(#0f172a,#0b1326); }
+.track-window{ position:relative; overflow:hidden; }       /* 相机视窗 */
+.track-content{ position:relative; will-change:transform; }/* 被横向平移 */
+.track-pad{ padding: 0 40px 24px 20px; }
+
+.lane{ position:relative; height:78px; margin:18px 0; border-radius:12px;
+  background: linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,0));
+  box-shadow: inset 0 -1px 0 rgba(255,255,255,.06), inset 0 1px 0 rgba(255,255,255,.06);
+}
+.lane-label{ position:absolute; left:12px; top:-14px; font-size:12px; color:#94a3b8; }
+
+/* finish 旗线 */
+.finish-col{ position:absolute; right:0; top:0; bottom:0; width:22px; }
+.finish-flag{
+  position:absolute; top:8px; right:10px; z-index:3;
+  background:#facc15; color:#111827; font-weight:800; font-size:12px;
+  padding:2px 8px; border-radius:8px; border:1px solid rgba(0,0,0,.2);
+}
+.finish-strip{
+  position:absolute; right:10px; top:8px; bottom:8px; width:16px; border-radius:2px;
+  background:
+    linear-gradient(45deg, #000 25%, transparent 25%) 0 0/12px 12px,
+    linear-gradient(-45deg, #000 25%, transparent 25%) 0 0/12px 12px,
+    linear-gradient(45deg, transparent 75%, #000 75%) 0 0/12px 12px,
+    linear-gradient(-45deg, transparent 75%, #000 75%) 0 0/12px 12px, #fff;
+  box-shadow:0 0 10px rgba(0,0,0,.45);
+}
+.finish-strip.glow{ box-shadow:0 0 22px 10px rgba(255,236,98,.65), 0 0 40px rgba(255,255,255,.35); }
+
+/* 车体与特效 */
+.car-wrap{ position:absolute; left:100px; top:50%; transform:translateY(-50%); }
+.car-img{ height:58px; width:auto; will-change:transform; filter: drop-shadow(0 4px 6px rgba(0,0,0,.4)); }
+.heat{ position:absolute; left:88px; top:50%; transform:translateY(-50%); width:36px; height:8px;
+  background:linear-gradient(90deg, rgba(255,165,0,.18), rgba(255,255,255,0));
+  animation:heatWave .6s ease-in-out infinite alternate; border-radius:8px; filter:blur(1px);
+}
+@keyframes heatWave { 0%{ opacity:.28 } 100%{ opacity:.06 } }
+
+/* 火花 */
+.sparkbox{ position:absolute; right:calc(100% - 8px); top:50%; transform:translateY(-50%); width:38px; height:20px; pointer-events:none; }
+.spark{ position:absolute; border-radius:50%; }
+@keyframes sparkFade {
+  0% { transform: translateX(0) translateY(0) scale(1); opacity:.95; }
+  100%{ transform: translateX(-18px) translateY(-3px) scale(.6); opacity:.1; }
+}
+
+/* 冲线彩带 canvas 容器（由库绘制） */
+.confetti{ position:fixed; inset:0; pointer-events:none; z-index:60 }
+
+/* 结果弹窗 */
+.modal-bg{ position:fixed; inset:0; background:rgba(0,0,0,.55); z-index:50; display:flex; align-items:center; justify-content:center; }
+.modal{ background:#fff; color:#111; border-radius:16px; padding:18px; width:min(92%,420px); box-shadow:0 10px 40px rgba(0,0,0,.45); }
